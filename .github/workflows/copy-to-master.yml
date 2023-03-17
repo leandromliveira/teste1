@@ -24,5 +24,6 @@ jobs:
           author_name: leandromliveira
           author_email: leandrooliveira35@gmail.com
           message: 'Copy files to master'
+          branch: main
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
