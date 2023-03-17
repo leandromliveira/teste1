@@ -13,9 +13,10 @@ jobs:
         with:
           repository: leandromliveira/teste1
           ref: dev
+      - name: Create destination directory
+        run: mkdir -p ../leandromliveira/teste2
       - name: Copy files
         run: |
-          mkdir ../leandromliveira/teste2
           cp -r ./* ../leandromliveira/teste2/
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v7.0.0
