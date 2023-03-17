@@ -22,8 +22,8 @@ jobs:
         run: |
           git config --global user.email "leandrooliveira35@gmail.com"
           git config --global user.name "leandromliveira"
-          git add .
+          git add -a
           git commit -m "Copy files to main"
-          git push origin main
+          git push origin main --allow-unrelated-histories
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
