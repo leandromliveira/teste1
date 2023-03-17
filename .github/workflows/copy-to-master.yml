@@ -1,0 +1,26 @@
+name: Copy to Master
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  copy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          repository: leandromliveira/teste1
+          ref: dev
+      - name: Copy files
+        run: |
+          cp -r ./* ../leandromliveira/teste2/
+      - name: Commit and push changes
+        uses: EndBug/add-and-commit@v7.0.0
+        with:
+          author_name: leandromliveira
+          author_email: leandrooliveira35@gmail.com
+          message: 'Copy files to master'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
