@@ -1,20 +1,61 @@
-name: Copy Dev Branch to Main Branch
+# name: Copy Dev Branch to Main Branch
+# on:
+#   push:
+#     branches:
+#       - dev
+# jobs:
+#   copy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#       - name: Copy files from Dev to Main
+#         run: |
+#           git config --global user.email "leandrooliveira35@gmail.com"
+#           git config --global user.name "leandromliveira"
+#           git config --global credential.helper store
+#           git fetch https://github.com/leandromliveira/teste2.git main
+#           git checkout -b main FETCH_HEAD
+#           git push -f https://github.com/leandromliveira/teste2.git main
+#         env:
+#           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+
+
+
+name: GitHub-Actions-Name
+
 on:
+  workflow_dispatch: # Allows you to run this workflow manually from the Actions tab
   push:
-    branches:
-      - dev
+    branches: [ dev ]
+    branches-ignore:
+    tags:
+    tags-ignore:
+    paths:
+      - 'README.md'  # limit trigger to the target-filepath.
+                     # It's not elegant to set same value in two options but
+                     # there is no way to retrieve this value in composite action.
+
 jobs:
-  copy:
+  main:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Copy files from Dev to Main
-        run: |
-          git config --global user.email "leandrooliveira35@gmail.com"
-          git config --global user.name "leandromliveira"
-          git config --global credential.helper store
-          git fetch https://github.com/leandromliveira/teste2.git main
-          git checkout -b main FETCH_HEAD
-          git push -f https://github.com/leandromliveira/teste2.git main
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      - uses: sator-imaging/Copy-to-Another-Repository@v1
+        with:
+
+          # required parameters
+          target-filepath: 'README.md'      # file path to copy
+          output-branch: 'main or master'   # branch name to create pull request
+          output-repo: 'leandromliveira/teste2'
+          git-token: ${{ secrets.GH_TOKEN }}
+          
+          # optional parameters and default values
+          # commit-message-prefix: '[actions] '   # followed by source repository and file name
+          # output-directory: "${{ github.event.repository.name }}"   # copy file into sub directory
+          # pr-branch-prefix: "actions/${{ github.event.repository.name }}"   # branch name prefix followed by date and time
+          # pr-title: "GitHub Actions: ${{ github.event.repository.name }}"   # followed by source repository and file name
+          # pr-message: "${{ github.workflow }} on ${{ github.server_url }}/${{ github.repository }}"   # followed by action repository
+          # git-name: "github-actions[bot]"   # your name can be set by ${{ github.actor }}
+          # git-email: 'github-actions[bot]@users.noreply.github.com'   # associated user icon is shown in commit page
+
+# {% endraw %}
