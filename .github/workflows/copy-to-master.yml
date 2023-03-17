@@ -12,6 +12,7 @@ jobs:
         run: |
           git config --global user.email "leandrooliveira35@gmail.com"
           git config --global user.name "leandromliveira"
+          git config --global credential.helper store
           git fetch https://github.com/leandromliveira/teste2.git main
           git checkout -b main FETCH_HEAD
           git push -f https://github.com/leandromliveira/teste2.git main
