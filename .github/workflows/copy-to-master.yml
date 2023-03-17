@@ -25,5 +25,10 @@ jobs:
           author_email: leandrooliveira35@gmail.com
           message: 'Copy files to master'
           branch: main
+        run: |
+          ls
+          git add .
+          git commit -m 'Copy files to main'
+          git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
