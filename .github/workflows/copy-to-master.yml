@@ -1,20 +1,26 @@
-name: Copy Dev Branch to Main Branch
+name: Global workflow to rule them all
+
 on:
   push:
-    branches:
-      - dev
+      branches: dev
+
 jobs:
-  copy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Copy files from Dev to Main
-        run: |
-          git config --global user.email "leandrooliveira35@gmail.com"
-          git config --global user.name "leandromliveira"
-          git config --global credential.helper store
-          git fetch https://github.com/leandromliveira/teste2.git main
-          git checkout -b main FETCH_HEAD
-          git push -f https://github.com/leandromliveira/teste2.git main
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+  replicate_changes:
+
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
+        - name: Replicating global workflow
+          uses: derberg/copy-files-to-other-repositories@v1.0.0
+          with:
+            github_token: ${{ secrets.GH_TOKEN  }}
+            patterns_to_ignore: '.github/workflows/copy-to-master2.yml'
+            patterns_to_include: '.github/workflows'
+            exclude_private: true
+            exclude_forked: true
+            committer_username: leandromliveira
+            committer_email: leandrooliveira35@gmail.com
+            commit_message: "ci: update global workflows"
