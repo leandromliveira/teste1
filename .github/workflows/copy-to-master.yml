@@ -19,16 +19,11 @@ jobs:
         run: |
           cp -r ./* ../leandromliveira/teste2/
       - name: Commit and push changes
-        uses: EndBug/add-and-commit@v7.0.0
-        with:
-          author_name: leandromliveira
-          author_email: leandrooliveira35@gmail.com
-          message: 'Copy files to master'
-          branch: main
         run: |
-          ls
+          git config --global user.email "leandrooliveira35@gmail.com"
+          git config --global user.name "leandromliveira"
           git add .
-          git commit -m 'Copy files to main'
+          git commit -m "Copy files to main"
           git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
