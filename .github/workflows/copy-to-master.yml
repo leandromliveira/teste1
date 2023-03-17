@@ -1,29 +1,20 @@
-name: Copy to Master
+name: Copy Dev Branch to Main Branch
 on:
   push:
     branches:
       - dev
-
 jobs:
   copy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          repository: leandromliveira/teste1
-          ref: dev
-      - name: Create destination directory
-        run: mkdir -p ../leandromliveira/teste2
-      - name: Copy files
+      - uses: actions/checkout@v3
+      - name: Copy files from Dev to Main
         run: |
-          cp -r ./* ../leandromliveira/teste2/
-      - name: Commit and push changes
-        run: |
+          git remote add main https://github.com/leandromliveira/teste2.git
           git config --global user.email "leandrooliveira35@gmail.com"
           git config --global user.name "leandromliveira"
-          git add -A
-          git commit -m "Copy files to main"
-          git push origin main --allow-unrelated-histories
+          git fetch main main
+          git checkout -b main FETCH_HEAD
+          git push -f main main
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
